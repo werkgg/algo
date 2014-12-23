@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 void lcs_length(char *x, char *y, int m, int n, int **c, char **b);
 void print_lcs(char *b, char *x, int m, int n, int i, int j);
@@ -38,12 +39,21 @@ int main(int argc, const char *argv[])
     }
     printf("\n");
 
+    size_t nanosec;
+    struct timespec time_before, time_after;
+    clock_gettime(CLOCK_REALTIME,&time_before);
+
     int ** c = (int **)malloc(sizeof(int *));
     char ** b = (char **)malloc(sizeof(char *));
 
     lcs_length(x, y, m, n, c, b);
     print_lcs(*b,x, m, n, m, n);
     printf("\n");
+
+    clock_gettime(CLOCK_REALTIME,&time_after);
+    nanosec = time_after.tv_sec*1e9 + time_after.tv_nsec
+        - time_before.tv_sec*1e9 - time_before.tv_nsec;
+    printf("time spend (nanosec): %ld\n", nanosec);
 
     /*
     for(int i=1; i<=m; i++)

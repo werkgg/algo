@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
+#include <time.h>
+
 void matrix_chain_order(int *p, int n, float **m, int **s);
 void print_optimal_parens(int * s, int n, int i, int j);
 
@@ -25,6 +27,11 @@ int main(int argc, const char *argv[])
         printf("%d ",p[i]);
     }
     printf("\n");
+
+    size_t nanosec;
+    struct timespec time_before, time_after;
+    clock_gettime(CLOCK_REALTIME,&time_before);
+
     float **m = malloc(sizeof(float *));
     int **s = malloc(sizeof(int *));
     matrix_chain_order(p,n,m,s);
@@ -45,6 +52,12 @@ int main(int argc, const char *argv[])
     free(*s);
     free(m);
     free(s);
+
+    clock_gettime(CLOCK_REALTIME,&time_after);
+    nanosec = time_after.tv_sec*1e9 + time_after.tv_nsec
+        - time_before.tv_sec*1e9 - time_before.tv_nsec;
+    printf("time spend (nanosec): %ld\n", nanosec);
+
     return 0;
 }
 

@@ -2,8 +2,10 @@
 #include <stack>
 #include <list>
 #include <set>
+#include <chrono>
 #include <cstdlib>
 #include <ctime>
+#include <cmath>
 
 class Graph
 {
@@ -36,15 +38,17 @@ void Graph::AddEdge(int u, int v)
 void Graph::RandomInit(int edge_n)
 {
     typedef std::pair<int,int> v;
-    std::list<v> vertex;
-    for(int i = 0; i < n; i++)
-        for(int j = 0; j < n; j++)
-            if(i != j)
-                vertex.push_back(v(i,j));
     std::set<v> random_v;
     std::srand(std::time(0));
     while(random_v.size() != edge_n)
-        random_v.insert(v(random()%n, random()%n));
+    {
+        int x,y;
+        x = random()%n;
+        y = random()%n;
+        if(x != y)
+            random_v.insert(v(x,y));
+
+    }
     for(std::set<v>::iterator it = random_v.begin(); it != random_v.end(); it++)
         AddEdge(it->first, it->second);
 }
@@ -128,8 +132,14 @@ std::ostream& operator<< (std::ostream& os, const Graph& graph)
 
 int main(int argc, char const* argv[])
 {
-    Graph graph(10);
-    graph.RandomInit(10);
+    if(argc != 2)
+    {
+        std::cout << "./scc n" << std::endl;
+        return 1;
+    }
+    int n = atoi(argv[1]);
+    Graph graph(n);
+    graph.RandomInit((int)(n * log2(n)));
     /*
     graph.AddEdge(0,3);
     graph.AddEdge(0,6);
@@ -142,7 +152,11 @@ int main(int argc, char const* argv[])
     graph.AddEdge(8,7);
     graph.AddEdge(8,9);
     */
+    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
     graph.SCC();
+    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+    std::chrono::nanoseconds elapsed = std::chrono::duration_cast<std::chrono::nanoseconds> (end - start);
     std::cout<<graph;
+    std::cout << "SCC function elapsed " << elapsed.count() << " nanoseconds" << std::endl;
     return 0;
 }

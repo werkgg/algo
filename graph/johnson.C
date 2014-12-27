@@ -129,8 +129,14 @@ std::ostream& operator<< (std::ostream& os, const Graph& graph)
     if(graph.negative_cycle == false)
     {
         os << "Johnson Result:" << std::endl;
+
+        os << std::setw(4) << 'v';
+        for(int i = 0; i < graph.n; i++)
+            os << std::setw(4) << i;
+        os << std::endl;
         for(int i = 0; i < graph.n; i++)
         {
+            os << std::setw(4) << i;
             for(int j = 0; j < graph.n - i; j++)
                 os << std::setw(4) << graph.dijkstraDist[i][j];
             os << std::endl;

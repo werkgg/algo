@@ -132,6 +132,7 @@ std::ostream& operator<< (std::ostream& os, const Graph& graph)
 
 int main(int argc, char const* argv[])
 {
+    /*
     if(argc != 2)
     {
         std::cout << "./scc n" << std::endl;
@@ -140,18 +141,22 @@ int main(int argc, char const* argv[])
     int n = atoi(argv[1]);
     Graph graph(n);
     graph.RandomInit((int)(n * log2(n)));
-    /*
-    graph.AddEdge(0,3);
-    graph.AddEdge(0,6);
-    graph.AddEdge(1,7);
-    graph.AddEdge(1,8);
-    graph.AddEdge(2,1);
-    graph.AddEdge(4,7);
-    graph.AddEdge(6,0);
-    graph.AddEdge(7,0);
-    graph.AddEdge(8,7);
-    graph.AddEdge(8,9);
     */
+    Graph graph(8);
+    graph.AddEdge(0,1);
+    graph.AddEdge(1,2);
+    graph.AddEdge(1,4);
+    graph.AddEdge(1,5);
+    graph.AddEdge(2,3);
+    graph.AddEdge(2,6);
+    graph.AddEdge(3,2);
+    graph.AddEdge(3,7);
+    graph.AddEdge(4,0);
+    graph.AddEdge(4,5);
+    graph.AddEdge(5,6);
+    graph.AddEdge(6,5);
+    graph.AddEdge(6,7);
+    graph.AddEdge(7,7);
     std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
     graph.SCC();
     std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();

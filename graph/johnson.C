@@ -250,8 +250,24 @@ void Graph::Johnson()
 
 int main(int argc, char const* argv[])
 {
+    /*
+    if(argc != 2)
+    {
+        std::cout << "./scc n" << std::endl;
+        return 1;
+    }
+    int n = atoi(argv[1]);
+    Graph graph(n);
+    graph.RandomInit((int)(n * log2(n)));
+    */
     Graph graph(4);
-    graph.RandomInit(6);
+
+    for(int i =0; i < 4; i++)
+    {
+        int x,y,w;
+        std::cin >> x >> y >> w;
+        graph.AddEdge(x,y,w);
+    }
 
     std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
 

@@ -258,7 +258,7 @@ int main(int argc, char const* argv[])
     /*
     if(argc != 2)
     {
-        std::cout << "./scc n" << std::endl;
+        std::cout << "./johnson n" << std::endl;
         return 1;
     }
     int n = atoi(argv[1]);

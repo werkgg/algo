@@ -175,7 +175,6 @@ void Graph::Dijkstra(int s)
         {
             //v is v.id, u is it->dest
             // v->u
-            //int alt = distance[s][v.id].distance + it->dest;
             int alt = dijkstraDist[s][v.id] + it->weight;
             if(alt < dijkstraDist[s][it->dest])
             {

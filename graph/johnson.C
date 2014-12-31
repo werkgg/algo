@@ -56,6 +56,7 @@ class Graph
     public:
     Graph(int n);
     void AddEdge(int u, int v, int weight);
+    void DeleteEdge(int u, int v);
     void RandomInit(int edge_n);
     friend std::ostream& operator<< (std::ostream& os, const Graph& graph);
 
@@ -77,6 +78,22 @@ void Graph::AddEdge(int u, int v, int weight)
 {
     adj[u].push_back(Edge(v,weight));
     adj[v].push_back(Edge(u,weight));
+}
+
+void Graph::DeleteEdge(int u, int v)
+{
+    for(std::list<Edge>::iterator it = adj[u].begin(); it != adj[u].end(); it++)
+        if(it->dest == v)
+        {
+            adj[u].erase(it);
+            break;
+        }
+    for(std::list<Edge>::iterator it = adj[v].begin(); it != adj[v].end(); it++)
+        if(it->dest == u)
+        {
+            adj[u].erase(it);
+            break;
+        }
 }
 
 void Graph::RandomInit(int edge_n)
@@ -113,7 +130,7 @@ void Graph::RandomInit(int edge_n)
     }
     #endif
     for(std::set<v>::iterator it = random_v.begin(); it != random_v.end(); it++)
-        AddEdge(it->first, it->second, random()%WEIGHT_MAX - 10);
+        AddEdge(it->first, it->second, random()%WEIGHT_MAX);
 }
 
 std::ostream& operator<< (std::ostream& os, const Graph& graph)
@@ -238,6 +255,8 @@ void Graph::BellmanFord()
                 it != adj[v].end() && negative_cycle == false; it++)
             if(bellmanFordDist[v] + it->weight < bellmanFordDist[it->dest])
                 negative_cycle = true;
+    for(int i = 0; i < n; i++)
+        DeleteEdge(source,i);
     adj.pop_back();
 }
 
@@ -255,7 +274,6 @@ void Graph::Johnson()
 
 int main(int argc, char const* argv[])
 {
-    /*
     if(argc != 2)
     {
         std::cout << "./johnson n" << std::endl;
@@ -264,7 +282,7 @@ int main(int argc, char const* argv[])
     int n = atoi(argv[1]);
     Graph graph(n);
     graph.RandomInit((int)(n * log2(n)));
-    */
+    /*
     Graph graph(4);
 
     for(int i =0; i < 4; i++)
@@ -273,7 +291,7 @@ int main(int argc, char const* argv[])
         std::cin >> x >> y >> w;
         graph.AddEdge(x,y,w);
     }
-
+    */
     std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
 
     graph.Johnson();
@@ -281,7 +299,7 @@ int main(int argc, char const* argv[])
     std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
     std::chrono::nanoseconds elapsed = std::chrono::duration_cast<std::chrono::nanoseconds> (end - start);
 
-    std::cout<<graph;
+    //std::cout<<graph;
     std::cout << "Johnson function elapsed " << elapsed.count() << " nanoseconds" << std::endl;
 
     return 0;

@@ -108,6 +108,7 @@ void Graph::SCC()
 
 std::ostream& operator<< (std::ostream& os, const Graph& graph)
 {
+    /*
     os << "Graph Adjacency Link:" << std::endl;
     for(int i = 0; i < graph.n; i++)
     {
@@ -116,7 +117,7 @@ std::ostream& operator<< (std::ostream& os, const Graph& graph)
             os << (*it) << ", ";
         os << std::endl;
     }
-
+    */
     os << "Strongly Connected Component:" << std::endl;
 
     for(std::list< std::list<int> >::const_iterator it = graph.scc.begin();
@@ -132,7 +133,6 @@ std::ostream& operator<< (std::ostream& os, const Graph& graph)
 
 int main(int argc, char const* argv[])
 {
-    /*
     if(argc != 2)
     {
         std::cout << "./scc n" << std::endl;
@@ -141,7 +141,7 @@ int main(int argc, char const* argv[])
     int n = atoi(argv[1]);
     Graph graph(n);
     graph.RandomInit((int)(n * log2(n)));
-    */
+    /*
     Graph graph(8);
     graph.AddEdge(0,1);
     graph.AddEdge(1,2);
@@ -157,6 +157,7 @@ int main(int argc, char const* argv[])
     graph.AddEdge(6,5);
     graph.AddEdge(6,7);
     graph.AddEdge(7,7);
+    */
     std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
     graph.SCC();
     std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
